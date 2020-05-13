@@ -54,7 +54,10 @@ class Interpeter():
             acc *= term
             return self.evaluate_Mul_(acc, tokens, pos) 
         elif tokens[pos].type == 'DIVIDE':
+            division_pos = pos
             term, pos = self.evaluate_Term(tokens, pos + 1)
+            if term == 0:
+                raise InterpeterError(tokens[division_pos].pos, self.input, 'Division by zero')
             acc /= term
             return self.evaluate_Mul_(acc, tokens, pos)  
         else:
@@ -112,13 +115,8 @@ class Interpeter():
 
 def main():
     interpeter = Interpeter()
-    lines = [
-        'a = ((2))',
-        'c = -a - 2',
-        'd = c - a',
-    ]
-    # for line in sys.stdin:
-    for line in lines:
+
+    for line in sys.stdin:    
         result = interpeter.evaluate_input(line)
         print(result)
 

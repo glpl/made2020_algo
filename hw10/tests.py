@@ -70,6 +70,11 @@ def test_uknown_variable():
     with pytest.raises(InterpeterError, match='"b" is not defined'):
         interpeter.evaluate_input('a = 1 + b')
 
+def test_interpreter_arithmetic_error():
+    interpeter = Interpeter()
+    with pytest.raises(InterpeterError, match='Division by zero'):
+        interpeter.evaluate_input('a = 6 / 0')
+
 
 def test_interpreter():
     interpeter = Interpeter()
